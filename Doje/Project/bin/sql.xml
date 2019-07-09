@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+ <mapper namespace="mysql">
+
+     <resultMap id="getUserList" type="com.happytalk.model.Users"/>
+
+    <update id="editUserList" parameterType="java.util.HashMap">
+        <![CDATA[
+		       UPDATE border2_LC
+		       set title=#{title}, contents=#{contents}, make_time = now()
+		       where PN = #{pn}
+		 ]]>
+    </update>
+
+    <delete id="delUserList" parameterType="java.util.HashMap">
+        <![CDATA[
+		       DELETE FROM border2_LC
+		       where PN=#{pn}
+		 ]]>
+    </delete>
+
+    <insert id="putUserList" parameterType="java.util.HashMap">
+        <![CDATA[
+		       INSERT INTO border2_LC (ID,NAME,TITLE,CONTENTS,MAKE_TIME)
+		       VALUES (#{id},#{name},#{title},#{contents},NOW())
+		 ]]>
+    </insert>
+	 
+	 <select id="getUserList" parameterType="java.util.HashMap" resultMap="getUserList">
+		 <![CDATA[
+		       SELECT ID,NAME,TITLE,CONTENTS,MAKE_TIME,PN
+		       FROM border2_LC
+		 ]]>
+	 </select>
+
+    <select id="findUserList" parameterType="java.util.HashMap">
+        <![CDATA[
+		       SELECT *
+		       FROM border2_LC
+		       WHERE title (LIKE '%'#{title}'%') or name (LIKE '%'#{name}'%') or contents (LIKE '%'#{contents}'%')
+		 ]]>
+    </select>
+
+
+ </mapper> 

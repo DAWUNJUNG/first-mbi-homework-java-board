@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+ <mapper namespace="mysql">
+
+     <resultMap id="findUserList" type="com.happytalk.model.Users"/>
+
+	<select id="findUserList" parameterType="java.util.HashMap"  resultMap="findUserList">
+		SELECT *
+		FROM border2_LC
+		<where>
+		<if test = "title != null">
+				title LIKE concat('%',#{title},'%')
+		</if>
+			<if test = "contents != null">
+				contents LIKE concat('%',#{contents},'%')
+			</if>
+			<if test = "name != null">
+				name LIKE concat('%',#{name},'%')
+			</if>
+		</where>
+		limit #{start}, 10
+	</select >
+
+	<select  id="countUserList" parameterType="java.util.HashMap"  resultType="java.lang.Integer">
+
+		select count(*) as count from border2_LC
+		<where>
+			<if test = "title != null">
+				title LIKE concat('%',#{title},'%')
+			</if>
+			<if test = "contents != null">
+				contents LIKE concat('%',#{contents},'%')
+			</if>
+			<if test = "name != null">
+				name LIKE concat('%',#{name},'%')
+			</if>
+		</where>
+	</select>
+	<update id="editUserList" parameterType="java.util.HashMap">
+		<![CDATA[
+		       UPDATE border2_LC
+		       set title=#{title}, contents=#{contents}, make_time = now()
+		       where No = #{No}
+		 ]]>
+	</update>
+
+	<delete id="delUserList" parameterType="java.util.HashMap">
+		<![CDATA[
+		       DELETE FROM border2_LC
+		       where No=#{No}
+		 ]]>
+	</delete>
+
+	<insert id="putUserList" parameterType="java.util.HashMap">
+		<![CDATA[
+		       INSERT INTO border2_LC (id, name, title, contents, make_time)
+		       VALUES ('lc', #{name},#{title},#{contents},NOW())
+		 ]]>
+	</insert>
+
+ </mapper> 
